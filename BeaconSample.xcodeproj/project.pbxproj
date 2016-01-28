@@ -9,11 +9,28 @@
 /* Begin PBXBuildFile section */
 		E551DB9E1B38E6B50082ADB8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E551DB9D1B38E6B50082ADB8 /* main.m */; };
 		E551DBA11B38E6B50082ADB8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E551DBA01B38E6B50082ADB8 /* AppDelegate.m */; };
-		E551DBA41B38E6B50082ADB8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E551DBA31B38E6B50082ADB8 /* ViewController.m */; };
 		E551DBA71B38E6B50082ADB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E551DBA51B38E6B50082ADB8 /* Main.storyboard */; };
 		E551DBA91B38E6B50082ADB8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E551DBA81B38E6B50082ADB8 /* Images.xcassets */; };
 		E551DBAC1B38E6B50082ADB8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E551DBAA1B38E6B50082ADB8 /* LaunchScreen.xib */; };
 		E551DBB81B38E6B50082ADB8 /* BeaconSampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E551DBB71B38E6B50082ADB8 /* BeaconSampleTests.m */; };
+		E551DBC81B38F22F0082ADB8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E551DBC71B38F22F0082ADB8 /* CoreLocation.framework */; };
+		E551DBCE1B39119A0082ADB8 /* MonitoringViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E551DBCD1B39119A0082ADB8 /* MonitoringViewController.m */; };
+		E55F21151B40E88900C58FA8 /* BeaconCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E55F21141B40E88900C58FA8 /* BeaconCell.m */; };
+		E5A194581B4BCEAF00146224 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A194571B4BCEAF00146224 /* InterfaceController.m */; };
+		E5A1945B1B4BCEAF00146224 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A1945A1B4BCEAF00146224 /* NotificationController.m */; };
+		E5A1945E1B4BCEAF00146224 /* GlanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5A1945D1B4BCEAF00146224 /* GlanceController.m */; };
+		E5A194601B4BCEAF00146224 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5A1945F1B4BCEAF00146224 /* Images.xcassets */; };
+		E5A194641B4BCEAF00146224 /* RDBeacon WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = E5A194631B4BCEAF00146224 /* RDBeacon WatchKit App.app */; };
+		E5A1946C1B4BCEAF00146224 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5A1946A1B4BCEAF00146224 /* Interface.storyboard */; };
+		E5A1946E1B4BCEAF00146224 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5A1946D1B4BCEAF00146224 /* Images.xcassets */; };
+		E5A194711B4BCEAF00146224 /* RDBeacon WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E5A194511B4BCEAF00146224 /* RDBeacon WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		E5AE53061B4CFDD900F0A1F8 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = E5AE53051B4CFDD900F0A1F8 /* MBProgressHUD.m */; };
+		E5C7A9621B3C2A080009FDB3 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5C7A9611B3C2A080009FDB3 /* DetailTableViewController.m */; };
+		E5CC2AA51B3CD19F0027C525 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CC2AA41B3CD19F0027C525 /* CoreBluetooth.framework */; };
+		E5CE824E1B3AA08600EA787F /* MemberTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CE824D1B3AA08600EA787F /* MemberTableViewController.m */; };
+		E5CF2DB51B4E50FA00AF21CA /* ConfigureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CF2DB41B4E50FA00AF21CA /* ConfigureViewController.m */; };
+		E5CF87571B4CAD29008C50DC /* mainRowType.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CF87561B4CAD29008C50DC /* mainRowType.m */; };
+		E5CF87591B4CB762008C50DC /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CF87581B4CB762008C50DC /* WatchKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,7 +41,35 @@
 			remoteGlobalIDString = E551DB971B38E6B50082ADB8;
 			remoteInfo = BeaconSample;
 		};
+		E5A194651B4BCEAF00146224 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E551DB901B38E6B50082ADB8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E5A194621B4BCEAF00146224;
+			remoteInfo = "RDBeacon WatchKit App";
+		};
+		E5A1946F1B4BCEAF00146224 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E551DB901B38E6B50082ADB8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E5A194501B4BCEAF00146224;
+			remoteInfo = "RDBeacon WatchKit Extension";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E5A194781B4BCEAF00146224 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				E5A194711B4BCEAF00146224 /* RDBeacon WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E551DB981B38E6B50082ADB8 /* BeaconSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeaconSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -32,14 +77,43 @@
 		E551DB9D1B38E6B50082ADB8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E551DB9F1B38E6B50082ADB8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E551DBA01B38E6B50082ADB8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E551DBA21B38E6B50082ADB8 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		E551DBA31B38E6B50082ADB8 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		E551DBA61B38E6B50082ADB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E551DBA81B38E6B50082ADB8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E551DBAB1B38E6B50082ADB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		E551DBB11B38E6B50082ADB8 /* BeaconSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeaconSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E551DBB61B38E6B50082ADB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E551DBB71B38E6B50082ADB8 /* BeaconSampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BeaconSampleTests.m; sourceTree = "<group>"; };
+		E551DBC71B38F22F0082ADB8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		E551DBCC1B39119A0082ADB8 /* MonitoringViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonitoringViewController.h; sourceTree = "<group>"; };
+		E551DBCD1B39119A0082ADB8 /* MonitoringViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonitoringViewController.m; sourceTree = "<group>"; };
+		E55F21131B40E88900C58FA8 /* BeaconCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeaconCell.h; sourceTree = "<group>"; };
+		E55F21141B40E88900C58FA8 /* BeaconCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeaconCell.m; sourceTree = "<group>"; };
+		E5A194511B4BCEAF00146224 /* RDBeacon WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "RDBeacon WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5A194541B4BCEAF00146224 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E5A194551B4BCEAF00146224 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		E5A194561B4BCEAF00146224 /* InterfaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
+		E5A194571B4BCEAF00146224 /* InterfaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterfaceController.m; sourceTree = "<group>"; };
+		E5A194591B4BCEAF00146224 /* NotificationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationController.h; sourceTree = "<group>"; };
+		E5A1945A1B4BCEAF00146224 /* NotificationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationController.m; sourceTree = "<group>"; };
+		E5A1945C1B4BCEAF00146224 /* GlanceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlanceController.h; sourceTree = "<group>"; };
+		E5A1945D1B4BCEAF00146224 /* GlanceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GlanceController.m; sourceTree = "<group>"; };
+		E5A1945F1B4BCEAF00146224 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		E5A194631B4BCEAF00146224 /* RDBeacon WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RDBeacon WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5A194691B4BCEAF00146224 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E5A1946B1B4BCEAF00146224 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		E5A1946D1B4BCEAF00146224 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		E5AE53041B4CFDD900F0A1F8 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		E5AE53051B4CFDD900F0A1F8 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		E5C7A9601B3C2A080009FDB3 /* DetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTableViewController.h; sourceTree = "<group>"; };
+		E5C7A9611B3C2A080009FDB3 /* DetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTableViewController.m; sourceTree = "<group>"; };
+		E5CC2AA41B3CD19F0027C525 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		E5CE824C1B3AA08500EA787F /* MemberTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberTableViewController.h; sourceTree = "<group>"; };
+		E5CE824D1B3AA08600EA787F /* MemberTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberTableViewController.m; sourceTree = "<group>"; };
+		E5CF2DB31B4E50FA00AF21CA /* ConfigureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigureViewController.h; sourceTree = "<group>"; };
+		E5CF2DB41B4E50FA00AF21CA /* ConfigureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigureViewController.m; sourceTree = "<group>"; };
+		E5CF87551B4CAD29008C50DC /* mainRowType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mainRowType.h; sourceTree = "<group>"; };
+		E5CF87561B4CAD29008C50DC /* mainRowType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mainRowType.m; sourceTree = "<group>"; };
+		E5CF87581B4CB762008C50DC /* WatchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchKit.framework; path = System/Library/Frameworks/WatchKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,10 +121,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5CF87591B4CB762008C50DC /* WatchKit.framework in Frameworks */,
+				E5CC2AA51B3CD19F0027C525 /* CoreBluetooth.framework in Frameworks */,
+				E551DBC81B38F22F0082ADB8 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		E551DBAE1B38E6B50082ADB8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E5A1944E1B4BCEAF00146224 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -63,8 +147,13 @@
 		E551DB8F1B38E6B50082ADB8 = {
 			isa = PBXGroup;
 			children = (
+				E5CF87581B4CB762008C50DC /* WatchKit.framework */,
+				E5CC2AA41B3CD19F0027C525 /* CoreBluetooth.framework */,
+				E551DBC71B38F22F0082ADB8 /* CoreLocation.framework */,
 				E551DB9A1B38E6B50082ADB8 /* BeaconSample */,
 				E551DBB41B38E6B50082ADB8 /* BeaconSampleTests */,
+				E5A194521B4BCEAF00146224 /* RDBeacon WatchKit Extension */,
+				E5A194671B4BCEAF00146224 /* RDBeacon WatchKit App */,
 				E551DB991B38E6B50082ADB8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -74,6 +163,8 @@
 			children = (
 				E551DB981B38E6B50082ADB8 /* BeaconSample.app */,
 				E551DBB11B38E6B50082ADB8 /* BeaconSampleTests.xctest */,
+				E5A194511B4BCEAF00146224 /* RDBeacon WatchKit Extension.appex */,
+				E5A194631B4BCEAF00146224 /* RDBeacon WatchKit App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -81,10 +172,20 @@
 		E551DB9A1B38E6B50082ADB8 /* BeaconSample */ = {
 			isa = PBXGroup;
 			children = (
+				E5AE53041B4CFDD900F0A1F8 /* MBProgressHUD.h */,
+				E5AE53051B4CFDD900F0A1F8 /* MBProgressHUD.m */,
 				E551DB9F1B38E6B50082ADB8 /* AppDelegate.h */,
 				E551DBA01B38E6B50082ADB8 /* AppDelegate.m */,
-				E551DBA21B38E6B50082ADB8 /* ViewController.h */,
-				E551DBA31B38E6B50082ADB8 /* ViewController.m */,
+				E551DBCC1B39119A0082ADB8 /* MonitoringViewController.h */,
+				E551DBCD1B39119A0082ADB8 /* MonitoringViewController.m */,
+				E5CF2DB31B4E50FA00AF21CA /* ConfigureViewController.h */,
+				E5CF2DB41B4E50FA00AF21CA /* ConfigureViewController.m */,
+				E5CE824C1B3AA08500EA787F /* MemberTableViewController.h */,
+				E5CE824D1B3AA08600EA787F /* MemberTableViewController.m */,
+				E5C7A9601B3C2A080009FDB3 /* DetailTableViewController.h */,
+				E5C7A9611B3C2A080009FDB3 /* DetailTableViewController.m */,
+				E55F21131B40E88900C58FA8 /* BeaconCell.h */,
+				E55F21141B40E88900C58FA8 /* BeaconCell.m */,
 				E551DBA51B38E6B50082ADB8 /* Main.storyboard */,
 				E551DBA81B38E6B50082ADB8 /* Images.xcassets */,
 				E551DBAA1B38E6B50082ADB8 /* LaunchScreen.xib */,
@@ -119,6 +220,50 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		E5A194521B4BCEAF00146224 /* RDBeacon WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				E5A194561B4BCEAF00146224 /* InterfaceController.h */,
+				E5A194571B4BCEAF00146224 /* InterfaceController.m */,
+				E5A194591B4BCEAF00146224 /* NotificationController.h */,
+				E5A1945A1B4BCEAF00146224 /* NotificationController.m */,
+				E5A1945C1B4BCEAF00146224 /* GlanceController.h */,
+				E5A1945D1B4BCEAF00146224 /* GlanceController.m */,
+				E5CF87551B4CAD29008C50DC /* mainRowType.h */,
+				E5CF87561B4CAD29008C50DC /* mainRowType.m */,
+				E5A1945F1B4BCEAF00146224 /* Images.xcassets */,
+				E5A194531B4BCEAF00146224 /* Supporting Files */,
+			);
+			path = "RDBeacon WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		E5A194531B4BCEAF00146224 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E5A194541B4BCEAF00146224 /* Info.plist */,
+				E5A194551B4BCEAF00146224 /* PushNotificationPayload.apns */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E5A194671B4BCEAF00146224 /* RDBeacon WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				E5A1946A1B4BCEAF00146224 /* Interface.storyboard */,
+				E5A1946D1B4BCEAF00146224 /* Images.xcassets */,
+				E5A194681B4BCEAF00146224 /* Supporting Files */,
+			);
+			path = "RDBeacon WatchKit App";
+			sourceTree = "<group>";
+		};
+		E5A194681B4BCEAF00146224 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E5A194691B4BCEAF00146224 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -129,10 +274,12 @@
 				E551DB941B38E6B50082ADB8 /* Sources */,
 				E551DB951B38E6B50082ADB8 /* Frameworks */,
 				E551DB961B38E6B50082ADB8 /* Resources */,
+				E5A194781B4BCEAF00146224 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E5A194701B4BCEAF00146224 /* PBXTargetDependency */,
 			);
 			name = BeaconSample;
 			productName = BeaconSample;
@@ -157,6 +304,39 @@
 			productReference = E551DBB11B38E6B50082ADB8 /* BeaconSampleTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		E5A194501B4BCEAF00146224 /* RDBeacon WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E5A194771B4BCEAF00146224 /* Build configuration list for PBXNativeTarget "RDBeacon WatchKit Extension" */;
+			buildPhases = (
+				E5A1944D1B4BCEAF00146224 /* Sources */,
+				E5A1944E1B4BCEAF00146224 /* Frameworks */,
+				E5A1944F1B4BCEAF00146224 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E5A194661B4BCEAF00146224 /* PBXTargetDependency */,
+			);
+			name = "RDBeacon WatchKit Extension";
+			productName = "RDBeacon WatchKit Extension";
+			productReference = E5A194511B4BCEAF00146224 /* RDBeacon WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit-extension";
+		};
+		E5A194621B4BCEAF00146224 /* RDBeacon WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E5A194761B4BCEAF00146224 /* Build configuration list for PBXNativeTarget "RDBeacon WatchKit App" */;
+			buildPhases = (
+				E5A194611B4BCEAF00146224 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "RDBeacon WatchKit App";
+			productName = "RDBeacon WatchKit App";
+			productReference = E5A194631B4BCEAF00146224 /* RDBeacon WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -168,10 +348,24 @@
 				TargetAttributes = {
 					E551DB971B38E6B50082ADB8 = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = ZD4G3EV24J;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					E551DBB01B38E6B50082ADB8 = {
 						CreatedOnToolsVersion = 6.3.2;
 						TestTargetID = E551DB971B38E6B50082ADB8;
+					};
+					E5A194501B4BCEAF00146224 = {
+						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = ZD4G3EV24J;
+					};
+					E5A194621B4BCEAF00146224 = {
+						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = ZD4G3EV24J;
 					};
 				};
 			};
@@ -190,6 +384,8 @@
 			targets = (
 				E551DB971B38E6B50082ADB8 /* BeaconSample */,
 				E551DBB01B38E6B50082ADB8 /* BeaconSampleTests */,
+				E5A194501B4BCEAF00146224 /* RDBeacon WatchKit Extension */,
+				E5A194621B4BCEAF00146224 /* RDBeacon WatchKit App */,
 			);
 		};
 /* End PBXProject section */
@@ -212,6 +408,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E5A1944F1B4BCEAF00146224 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E5A194641B4BCEAF00146224 /* RDBeacon WatchKit App.app in Resources */,
+				E5A194601B4BCEAF00146224 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E5A194611B4BCEAF00146224 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E5A1946C1B4BCEAF00146224 /* Interface.storyboard in Resources */,
+				E5A1946E1B4BCEAF00146224 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -219,9 +433,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E551DBA41B38E6B50082ADB8 /* ViewController.m in Sources */,
+				E5C7A9621B3C2A080009FDB3 /* DetailTableViewController.m in Sources */,
+				E55F21151B40E88900C58FA8 /* BeaconCell.m in Sources */,
+				E551DBCE1B39119A0082ADB8 /* MonitoringViewController.m in Sources */,
 				E551DBA11B38E6B50082ADB8 /* AppDelegate.m in Sources */,
 				E551DB9E1B38E6B50082ADB8 /* main.m in Sources */,
+				E5CE824E1B3AA08600EA787F /* MemberTableViewController.m in Sources */,
+				E5AE53061B4CFDD900F0A1F8 /* MBProgressHUD.m in Sources */,
+				E5CF2DB51B4E50FA00AF21CA /* ConfigureViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +452,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E5A1944D1B4BCEAF00146224 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E5A1945B1B4BCEAF00146224 /* NotificationController.m in Sources */,
+				E5A194581B4BCEAF00146224 /* InterfaceController.m in Sources */,
+				E5A1945E1B4BCEAF00146224 /* GlanceController.m in Sources */,
+				E5CF87571B4CAD29008C50DC /* mainRowType.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -240,6 +470,16 @@
 			isa = PBXTargetDependency;
 			target = E551DB971B38E6B50082ADB8 /* BeaconSample */;
 			targetProxy = E551DBB21B38E6B50082ADB8 /* PBXContainerItemProxy */;
+		};
+		E5A194661B4BCEAF00146224 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E5A194621B4BCEAF00146224 /* RDBeacon WatchKit App */;
+			targetProxy = E5A194651B4BCEAF00146224 /* PBXContainerItemProxy */;
+		};
+		E5A194701B4BCEAF00146224 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E5A194501B4BCEAF00146224 /* RDBeacon WatchKit Extension */;
+			targetProxy = E5A1946F1B4BCEAF00146224 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -258,6 +498,14 @@
 				E551DBAB1B38E6B50082ADB8 /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		E5A1946A1B4BCEAF00146224 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E5A1946B1B4BCEAF00146224 /* Base */,
+			);
+			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -347,9 +595,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = BeaconSample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -357,9 +608,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = BeaconSample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -397,6 +651,70 @@
 			};
 			name = Release;
 		};
+		E5A194721B4BCEAF00146224 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "RDBeacon WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		E5A194731B4BCEAF00146224 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = "RDBeacon WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		E5A194741B4BCEAF00146224 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IBSC_MODULE = RDBeacon_WatchKit_Extension;
+				INFOPLIST_FILE = "RDBeacon WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Debug;
+		};
+		E5A194751B4BCEAF00146224 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				IBSC_MODULE = RDBeacon_WatchKit_Extension;
+				INFOPLIST_FILE = "RDBeacon WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -416,6 +734,7 @@
 				E551DBBD1B38E6B50082ADB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E551DBBE1B38E6B50082ADB8 /* Build configuration list for PBXNativeTarget "BeaconSampleTests" */ = {
 			isa = XCConfigurationList;
@@ -424,6 +743,25 @@
 				E551DBC01B38E6B50082ADB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E5A194761B4BCEAF00146224 /* Build configuration list for PBXNativeTarget "RDBeacon WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E5A194741B4BCEAF00146224 /* Debug */,
+				E5A194751B4BCEAF00146224 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E5A194771B4BCEAF00146224 /* Build configuration list for PBXNativeTarget "RDBeacon WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E5A194721B4BCEAF00146224 /* Debug */,
+				E5A194731B4BCEAF00146224 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

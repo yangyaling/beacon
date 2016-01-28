@@ -13,33 +13,109 @@
 @end
 
 @implementation AppDelegate
-
+@synthesize useruuid;
+@synthesize username;
+@synthesize status2;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    [NSThread sleepForTimeInterval:1];
+    
+    self.locationManager = [[CLLocationManager alloc]init];
+    self.locationManager.delegate = (id)self;
+    
+    //get device's uuid for useruuid
+    NSString *identifierForVendor=[[[UIDevice currentDevice] identifierForVendor]UUIDString];//UUID
+    self.useruuid= identifierForVendor;
+    
+    //setting for notification
+    UIMutableUserNotificationCategory *categorys=[[UIMutableUserNotificationCategory alloc]init];
+    UIUserNotificationSettings *settings=[UIUserNotificationSettings  settingsForTypes:(UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound) categories:[NSSet setWithObject:categorys]];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    
     return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [UIApplication sharedApplication].applicationIconBadgeNumber =0;
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"applicationWillEnterForeground" object:self];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+
 }
 
+-(void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings{
+    //    NSLog(@"－－－－－－－－%@",notificationSettings);
+}
+
+-(void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler{
+    //NSLog(@"－－－－－－－－%@",identifier);
+    completionHandler();
+}
+
+//location magenager delegate
+-(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region{
+    NSString *notificationMessage = [[NSString alloc]initWithFormat:@"%@に入った",region.identifier];
+    NSString *status = @"1";
+    [self updateUserStatus:status beaconRegion:(CLBeaconRegion *)region];
+    [self sendNotification:notificationMessage];
+}
+
+-(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region{
+    NSString *notificationMessage = [[NSString alloc]initWithFormat:@"%@から出た",region.identifier];
+    NSString *status = @"0";
+    [self updateUserStatus:status beaconRegion:(CLBeaconRegion *)region];
+    [self sendNotification:notificationMessage];
+    
+    
+}
+
+//----------------------------NSURLRequest(POST) update the states to server---------------------------------
+-(void)updateUserStatus:(NSString*)status beaconRegion:(CLBeaconRegion*)beaconregion{
+    
+    AppDelegate *appdg= (AppDelegate*)[[UIApplication sharedApplication]delegate];
+    NSString * suuid =appdg.useruuid;
+    NSString * uuid = (NSString*)beaconregion.proximityUUID.UUIDString;
+    NSString * major = [beaconregion.major stringValue];
+    NSString * minor = [beaconregion.minor stringValue];
+    
+    NSString *strURL= [[NSString alloc] initWithFormat:@"http://rdbeacon.azurewebsites.net/rdupdatestatus.php?useruuid=%@&status=%@&uuid=%@&major=%@&minor=%@",suuid,status,uuid,major,minor];
+    NSURL *url=[NSURL URLWithString:strURL];
+    NSURLRequest *request=[[NSURLRequest alloc]initWithURL:url];
+    
+    
+    NSURLConnection *connect = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [connect start];
+    
+    if (connect) {
+    }
+}
+
+//scheduling notifications
+-(void)sendNotification:(NSString *)message{
+    UILocalNotification *notification = [[UILocalNotification alloc]init];
+    notification.fireDate = [[NSDate date]init];
+    notification.timeZone = [NSTimeZone defaultTimeZone];
+    notification.alertBody = message;
+    notification.soundName = UILocalNotificationDefaultSoundName;
+    notification.alertAction =@"Open";
+    notification.repeatInterval = 0;
+    notification.applicationIconBadgeNumber=[UIApplication sharedApplication].applicationIconBadgeNumber+1;
+    notification.category = @"notification";
+
+    [[UIApplication sharedApplication]scheduleLocalNotification:notification];
+}
 @end
