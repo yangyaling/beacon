@@ -28,6 +28,7 @@
     self.refreshControl = refresh;
     
     [self startRequestAllUsersInfo];
+    self.tableView.tableFooterView = [[UIView alloc]init];
 }
 
 //----------------------------NSURLRequest--------------------------------------------------
