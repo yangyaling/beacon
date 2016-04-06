@@ -36,7 +36,7 @@ CGFloat const NavButtonHeight=32;
     [super viewDidLoad];
     [self initNavButton];
     //register with a notification center to request the state for beacon region(in/out)
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBeaconState) name:@"applicationWillEnterForeground" object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBeaconState) name:@"applicationWillEnterForeground" object:nil];
     self.centralManager = [[CBCentralManager alloc]initWithDelegate:self queue:nil];
     
     //Initializing the Location Manager
@@ -59,7 +59,7 @@ CGFloat const NavButtonHeight=32;
     self.mybeacons = [NSMutableArray new];
 
     NSString *beaconpath =[docPath stringByAppendingPathComponent:[[NSString alloc]initWithFormat:  @"beaconlocation.plist"]];
-    NSLog(@"%@",beaconpath);
+    //NSLog(@"%@",beaconpath);
     
     if ([fileManager fileExistsAtPath:beaconpath]) {
         self.BeaconInfo = [[NSMutableDictionary alloc]initWithContentsOfFile:beaconpath];
@@ -77,12 +77,13 @@ CGFloat const NavButtonHeight=32;
             delegate.status2 = NO;
         }
         [self initCLBeaconRegion];
-        NSLog(@"この設備は既にサーバに登録しました");
         [self startRequest];
     }else{
         [self startRequest];
         [self performSegueWithIdentifier:@"segueConfigure" sender:self];
     }
+    
+    self.tableView.tableFooterView = [[UIView alloc]init];
 }
 
 
@@ -126,7 +127,7 @@ CGFloat const NavButtonHeight=32;
             break;
             
         default:
-            NSLog(@"central manager did change state");
+            //NSLog(@"central manager did change state");
             break;
     }
 }
@@ -144,23 +145,22 @@ CGFloat const NavButtonHeight=32;
             if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
                 [self.locationManager requestAlwaysAuthorization];
             }else{
-                NSLog(@"initializeMonitoring is Called");
                 [self initCLBeaconRegion];
             }
-            NSLog(@"CASE kCLAuthorizationStatusNotDetermined");
+            //NSLog(@"CASE kCLAuthorizationStatusNotDetermined");
             break;
         case kCLAuthorizationStatusRestricted:
-            NSLog(@"CASE kCLAuthorizationStatusRestricted");
+            //NSLog(@"CASE kCLAuthorizationStatusRestricted");
             break;
         case kCLAuthorizationStatusDenied:
-            NSLog(@"CASE kCLAuthorizationStatusDenied");
+            //NSLog(@"CASE kCLAuthorizationStatusDenied");
             break;
         case kCLAuthorizationStatusAuthorizedAlways:
-            NSLog(@"CASE kCLAuthorizationStatusAuthorizedAlways");
+            //NSLog(@"CASE kCLAuthorizationStatusAuthorizedAlways");
             [self initCLBeaconRegion];
             break;
         case kCLAuthorizationStatusAuthorizedWhenInUse:
-            NSLog(@"CASE kCLAuthorizationStatusAuthorizedWhenInUse");
+            //NSLog(@"CASE kCLAuthorizationStatusAuthorizedWhenInUse");
             [self initCLBeaconRegion];
             break;
         default:
@@ -168,33 +168,33 @@ CGFloat const NavButtonHeight=32;
     }
 }
 
--(void)updateBeaconState{
-    for (int i=0; i<self.mybeacons.count; i++) {
-        CLBeaconRegion* reg = [self.mybeacons objectAtIndex:i];
-        [self.locationManager requestStateForRegion:reg];
-    }
-}
+//-(void)updateBeaconState{
+//    for (int i=0; i<self.mybeacons.count; i++) {
+//        CLBeaconRegion* reg = [self.mybeacons objectAtIndex:i];
+//        [self.locationManager requestStateForRegion:reg];
+//    }
+//}
 
 //Invoked when there's a state transition for a monitored region or in response to a request for state via a call to requestStateForRegion:.
--(void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region{
-    
-    switch (state) {
-        case CLRegionStateInside:
-            [self updateUserStatus:@"1" beaconRegion:(CLBeaconRegion *)region];
-            NSLog(@"Inside %@",region.identifier);
-            break;
-        case CLRegionStateOutside:
-            [self updateUserStatus:@"2" beaconRegion:(CLBeaconRegion *)region];
-            NSLog(@"Outside %@",region.identifier);
-            break;
-        case CLRegionStateUnknown:
-            break;
-        default:
-            
-            break;
-    }
-    [self.tableView reloadData];
-}
+//-(void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region{
+//    
+//    switch (state) {
+//        case CLRegionStateInside:
+//            [self updateUserStatus:@"1" beaconRegion:(CLBeaconRegion *)region];
+//            NSLog(@"Inside %@",region.identifier);
+//            break;
+//        case CLRegionStateOutside:
+//            [self updateUserStatus:@"0" beaconRegion:(CLBeaconRegion *)region];
+//            NSLog(@"Outside %@",region.identifier);
+//            break;
+//        case CLRegionStateUnknown:
+//            break;
+//        default:
+//            
+//            break;
+//    }
+//    [self.tableView reloadData];
+//}
 
 
 -(void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region{
@@ -217,7 +217,7 @@ CGFloat const NavButtonHeight=32;
             [self.Locations removeObjectForKey:region.identifier];
         }
     }
-    //NSLog(@"%@ %d",region.proximityUUID.UUIDString,beacons.count);
+
     [self.tableView reloadData];
     
     
@@ -225,16 +225,16 @@ CGFloat const NavButtonHeight=32;
 
 //ーーーーーーーーーーーーーーーーーーーーー失敗した時、ログ情報を出力ーーーーーーーーーーーーーーーーーーーーーー
 -(void) locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error{
-    NSLog(@"%@", error);
+    //NSLog(@"%@", error);
 }
 
 -(void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
-    NSLog(@"%@", error);
+    //NSLog(@"%@", error);
     
 }
 
 -(void)locationManager:(CLLocationManager *)manager rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error{
-    NSLog(@"%@", error);
+    //NSLog(@"%@", error);
 }
 
 //----------------------------NSURLRequest---------------------------------------------------
@@ -441,7 +441,6 @@ CGFloat const NavButtonHeight=32;
 
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    NSLog(@"dealloc");
 }
 
 

@@ -30,9 +30,9 @@
     NSString *strURL = [[NSString alloc]initWithFormat:@"http://rdbeacon.azurewebsites.net/rdgetalluserinfo.php"];
     NSURL *url = [NSURL URLWithString:strURL];//设置请求路径
     
-    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];//创建请求对象
-    
-    NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    //NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];//创建请求对象
+    NSURLRequest * req = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10];
+    NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:req delegate:self];
     self.Rdata = nil; //创建一个rdata做数据的接收
     if (connection) {
         [connection start];
@@ -41,7 +41,6 @@
 }
 //---------------------------didReceiveResponse(USURLConnectionDataDelegate委托函数)-----------------------------------------
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    NSLog(@"get the response");
     [self.Rdata setLength:0];
     
 }
@@ -50,7 +49,6 @@
 //----------------------------didReceiveData(USURLConnectionDataDelegate协议的方法)------------------------------------------
 //每次收到一条数据，就会调用此函数
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-    NSLog(@"get some data");
     [self.Rdata appendData:data];//把data加到rdata最后
     
     
@@ -67,7 +65,6 @@
     }else{
         self.Rdict = [[NSMutableDictionary alloc]initWithDictionary:dict];
         [self configureTableWithData:self.Rdict];
-        NSLog(@"didTableViewReloaded");
     }
 }
 
@@ -77,7 +74,6 @@
     static NSString *rowType = @"memberRow";
     NSArray *members = [self.Rdict allKeys];
     [self.table setNumberOfRows:members.count withRowType:rowType];
-    NSLog(@"%@",members);
     
     for (NSInteger i=0; i<self.table.numberOfRows; i++) {
         NSString *useruuid = [members objectAtIndex:i];
@@ -108,11 +104,8 @@
 
 - (void)willActivate {
     // This method is called when watch view controller is about to be visible to user
-    
-
     [super willActivate];
     [self startRequestAllUsersInfo];
-    NSLog(@"willActivate");
 }
 
 - (void)didDeactivate {

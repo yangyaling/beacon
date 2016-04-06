@@ -8,10 +8,8 @@
 
 #import "MemberTableViewController.h"
 #import "DetailTableViewController.h"
-#import "MBProgressHUD.h"
 
-@interface MemberTableViewController ()<MBProgressHUDDelegate>{
-    MBProgressHUD *HUD;
+@interface MemberTableViewController (){
     long long expectedLength;
     long long currentLength;
 }
@@ -36,7 +34,6 @@
 -(void)startRequestAllUsersInfo{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
-    
     NSString *strURL = [[NSString alloc]initWithFormat:@"http://rdbeacon.azurewebsites.net/rdgetalluserinfo.php"];
     NSURL *url = [NSURL URLWithString:strURL];
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
@@ -45,30 +42,21 @@
     if (connection) {
         [connection start];
         self.Rdata = [NSMutableData new];
-        HUD = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        HUD.delegate = self;
-
     }
 }
 //---------------------------didReceiveResponse(USURLConnectionDataDelegate)-----------------------------------------
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    NSLog(@"get the response");
     [self.Rdata setLength:0];
     expectedLength = MAX([response expectedContentLength], 1);
     currentLength = 0;
-    HUD.mode = MBProgressHUDModeDeterminate;
 }
 
 
 //----------------------------didReceiveData(USURLConnectionDataDelegate协议的方法)------------------------------------------
 //每次收到一条数据，就会调用此函数
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-    NSLog(@"get some data");
     [self.Rdata appendData:data];//把data加到rdata最后
     currentLength += [data length];
-    HUD.progress = currentLength / (float)expectedLength;
-    
-    
 }
 //----------------------------didFinishLoading(USURLConnectionDelegate协议的方法)------------------------------------------
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
@@ -82,15 +70,12 @@
         [alert show];
     }else{
         [self reloadTableView:dict];
-        NSLog(@"didTableViewReloaded");
     }
     
 }
 -(void)reloadTableView:(NSDictionary *)dict{
     self.Rdict = [[NSMutableDictionary alloc]initWithDictionary:dict];
     [self.tableView reloadData];
-    
-    [HUD hide:YES];
 }
 
 
@@ -100,19 +85,10 @@
         [self.refreshControl endRefreshing];
 
     }
-    NSLog(@"FailWithError");
-    HUD.labelText = @"インターネットに接続していません";
-    HUD.labelFont = [UIFont boldSystemFontOfSize:12.f];
-    HUD.mode = MBProgressHUDModeCustomView;
-    [HUD hide:YES afterDelay:1];
 }
-
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
@@ -174,7 +150,7 @@
             break;
     }
     
-    cell.accessoryType =UITableViewCellAccessoryDetailButton;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 
