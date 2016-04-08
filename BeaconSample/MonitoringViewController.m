@@ -318,24 +318,24 @@ CGFloat const NavButtonHeight=32;
 }
 
 //----------------------------NSURLRequest update the states to server when enter/quit the beacon region器-------------------------------------
--(void)updateUserStatus:(NSString*)status beaconRegion:(CLBeaconRegion*)beaconregion{
-    
-    AppDelegate *appdg= (AppDelegate*)[[UIApplication sharedApplication]delegate];
-    NSString * suuid =appdg.useruuid;
-    NSString * uuid = (NSString*)beaconregion.proximityUUID.UUIDString;
-    NSString * major = [beaconregion.major stringValue];
-    NSString * minor = [beaconregion.minor stringValue];
-    
-    NSString *strURL= [[NSString alloc] initWithFormat:@"http://rdbeacon.azurewebsites.net/rdupdatestatus.php?useruuid=%@&status=%@&uuid=%@&major=%@&minor=%@",suuid,status,uuid,major,minor];
-    NSURL *url=[NSURL URLWithString:strURL];
-    NSURLRequest *request=[[NSURLRequest alloc]initWithURL:url];
-    
-    
-    NSURLConnection *connect = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    [connect start];
-    if (connect) {
-    }
-}
+//-(void)updateUserStatus:(NSString*)status beaconRegion:(CLBeaconRegion*)beaconregion{
+//    
+//    AppDelegate *appdg= (AppDelegate*)[[UIApplication sharedApplication]delegate];
+//    NSString * suuid =appdg.useruuid;
+//    NSString * uuid = (NSString*)beaconregion.proximityUUID.UUIDString;
+//    NSString * major = [beaconregion.major stringValue];
+//    NSString * minor = [beaconregion.minor stringValue];
+//    
+//    NSString *strURL= [[NSString alloc] initWithFormat:@"http://rdbeacon.azurewebsites.net/rdupdatestatus.php?useruuid=%@&status=%@&uuid=%@&major=%@&minor=%@",suuid,status,uuid,major,minor];
+//    NSURL *url=[NSURL URLWithString:strURL];
+//    NSURLRequest *request=[[NSURLRequest alloc]initWithURL:url];
+//    
+//    
+//    NSURLConnection *connect = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+//    [connect start];
+//    if (connect) {
+//    }
+//}
 
 //create two navigation bar buttons
 -(void)initNavButton{

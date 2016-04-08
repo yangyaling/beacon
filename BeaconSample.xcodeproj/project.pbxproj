@@ -31,6 +31,7 @@
 		E5CF2DB51B4E50FA00AF21CA /* ConfigureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CF2DB41B4E50FA00AF21CA /* ConfigureViewController.m */; };
 		E5CF87571B4CAD29008C50DC /* mainRowType.m in Sources */ = {isa = PBXBuildFile; fileRef = E5CF87561B4CAD29008C50DC /* mainRowType.m */; };
 		E5CF87591B4CB762008C50DC /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CF87581B4CB762008C50DC /* WatchKit.framework */; };
+		E5EDAE731CB7B38B009D1C35 /* BGTask.m in Sources */ = {isa = PBXBuildFile; fileRef = E5EDAE721CB7B38B009D1C35 /* BGTask.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +115,8 @@
 		E5CF87551B4CAD29008C50DC /* mainRowType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mainRowType.h; sourceTree = "<group>"; };
 		E5CF87561B4CAD29008C50DC /* mainRowType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mainRowType.m; sourceTree = "<group>"; };
 		E5CF87581B4CB762008C50DC /* WatchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchKit.framework; path = System/Library/Frameworks/WatchKit.framework; sourceTree = SDKROOT; };
+		E5EDAE711CB7B38B009D1C35 /* BGTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BGTask.h; sourceTree = "<group>"; };
+		E5EDAE721CB7B38B009D1C35 /* BGTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BGTask.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +175,8 @@
 		E551DB9A1B38E6B50082ADB8 /* BeaconSample */ = {
 			isa = PBXGroup;
 			children = (
+				E5EDAE711CB7B38B009D1C35 /* BGTask.h */,
+				E5EDAE721CB7B38B009D1C35 /* BGTask.m */,
 				E5AE53041B4CFDD900F0A1F8 /* MBProgressHUD.h */,
 				E5AE53051B4CFDD900F0A1F8 /* MBProgressHUD.m */,
 				E551DB9F1B38E6B50082ADB8 /* AppDelegate.h */,
@@ -440,6 +445,7 @@
 				E551DB9E1B38E6B50082ADB8 /* main.m in Sources */,
 				E5CE824E1B3AA08600EA787F /* MemberTableViewController.m in Sources */,
 				E5AE53061B4CFDD900F0A1F8 /* MBProgressHUD.m in Sources */,
+				E5EDAE731CB7B38B009D1C35 /* BGTask.m in Sources */,
 				E5CF2DB51B4E50FA00AF21CA /* ConfigureViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
