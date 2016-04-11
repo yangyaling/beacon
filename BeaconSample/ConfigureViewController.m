@@ -48,7 +48,7 @@
     
     
     NSString *post = [NSString stringWithFormat:@"uuid=%@&username=%@&status2=%@",uuid,username,isBtnOn];
-    NSLog(@"post:%@",post);
+//    NSLog(@"post:%@",post);
     NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
@@ -66,7 +66,7 @@
 
 //---------------------------didReceiveResponse(USURLConnectionDataDelegate)-----------------------------------------
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    NSLog(@"get the response");
+//    NSLog(@"get the response");
     [self.Rdata setLength:0];
     expectedLength = MAX([response expectedContentLength], 1);
     
@@ -77,7 +77,7 @@
 
 //----------------------------didReceiveData(USURLConnectionDataDelegate)------------------------------------------
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-    NSLog(@"get some data");
+//    NSLog(@"get some data");
     [self.Rdata appendData:data];//把data加到rdata最后
     
     currentLength += [data length];
@@ -113,7 +113,7 @@
         
         NSString *plistPath = [docPath stringByAppendingPathComponent:[[NSString alloc]initWithFormat:@"%@.plist",delegate.useruuid]];
         [dict writeToFile:plistPath atomically:YES];
-        NSLog(@"%@",plistPath);
+//        NSLog(@"%@",plistPath);
         HUD.labelText = @"登録は完成しました";
         HUD.labelFont = [UIFont boldSystemFontOfSize:12.f];
         HUD.mode = MBProgressHUDModeCustomView;

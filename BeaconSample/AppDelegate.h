@@ -17,6 +17,6 @@
 @property (strong, nonatomic) NSString *useruuid;
 @property (strong, nonatomic) NSString *username;
 @property BOOL status2;
-
+@property NSMutableArray* updatelist;
 @end
 

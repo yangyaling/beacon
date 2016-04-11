@@ -53,7 +53,7 @@
 }
 //---------------------------didReceiveResponse(USURLConnectionDataDelegate)-----------------------------------------
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    NSLog(@"get the response");
+//    NSLog(@"get the response");
     [self.Rdata setLength:0];
     expectedLength = MAX([response expectedContentLength], 1);
     currentLength = 0;
@@ -64,7 +64,7 @@
 
 //----------------------------didReceiveData(USURLConnectionDataDelegate)------------------------------------------
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-    NSLog(@"get some data");
+//    NSLog(@"get some data");
     [self.Rdata appendData:data];
     currentLength += [data length];
     HUD.progress = currentLength / (float)expectedLength;
@@ -84,7 +84,7 @@
         [alert show];
     }else{
         [self reloadTableView:dict];
-        NSLog(@"didTableViewReloaded");
+//        NSLog(@"didTableViewReloaded");
        
     }
     
@@ -93,7 +93,7 @@
     if(dict.count>0){
         self.Rdict = [[NSMutableDictionary alloc]initWithDictionary:dict];
         [self.tableView reloadData];
-        NSLog(@"%@",self.Rdict);
+//        NSLog(@"%@",self.Rdict);
         [HUD hide:YES];
     }else{
         HUD.labelText = @"出入りの記録はないです";

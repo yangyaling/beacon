@@ -24,13 +24,17 @@
 @synthesize useruuid;
 @synthesize username;
 @synthesize status2;
+@synthesize updatelist;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [NSThread sleepForTimeInterval:1];
     
+    [self redirectNSlogToDocumentFolder];
+    
     self.locationManager = [[CLLocationManager alloc]init];
     self.locationManager.delegate = (id)self;
+    self.updatelist = [[NSMutableArray alloc]initWithCapacity:0];
     
     //get device's uuid for useruuid
     NSString *identifierForVendor=[[[UIDevice currentDevice] identifierForVendor]UUIDString];//UUID
@@ -42,19 +46,42 @@
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
     
     
-    [NSTimer scheduledTimerWithTimeInterval:150.0
+    [NSTimer scheduledTimerWithTimeInterval:30.0
                                      target:self
-                                   selector:@selector(restartBkTask)
+                                   selector:@selector(updateUserstatusList)
                                    userInfo:nil
                                     repeats:YES];
     
     return YES;
 }
 
--(void)restartBkTask{
-    
+-(void)updateUserstatusList{
+    NSLog(@"定期更新：%lu",(unsigned long)self.updatelist.count);
+    if(self.updatelist.count> 0){
+        
+        NSMutableDictionary * postdic = [[NSMutableDictionary alloc]init];
+        [postdic setObject:updatelist forKey:@"updatedata"];
+        
+        NSString *strURL= [[NSString alloc] initWithFormat:@"http://rdbeacon.azurewebsites.net/rdupdateall.php"];
+        
+        
+        NSURL* url =[NSURL URLWithString:strURL];
+
+        NSData* jsondata = [NSJSONSerialization dataWithJSONObject:postdic options:NSJSONWritingPrettyPrinted error:nil];
+        
+        NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setHTTPBody:jsondata];
+        NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        if (connection) {
+            Rdata = [NSMutableData new];
+        }
+
+    }
     [_bgTask beginNewBackgroundTask];
 }
+
+
 - (void)applicationWillResignActive:(UIApplication *)application {
 
 }
@@ -114,29 +141,20 @@
     [format setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString *updatetime = [format stringFromDate:[NSDate date]];
     
+    NSMutableDictionary *dataitem = [[NSMutableDictionary alloc]init];
+    [dataitem setValue:suuid forKey:@"useruuid"];
+    [dataitem setValue:uuid forKey:@"uuid"];
+    [dataitem setValue:major forKey:@"major"];
+    [dataitem setValue:minor forKey:@"minor"];
+    [dataitem setValue:status forKey:@"status"];
+    [dataitem setValue:updatetime forKey:@"updatetime"];
     
+    [updatelist addObject:dataitem];
     
+    [self updateUserstatusList];
     
-    NSString *strURL= [[NSString alloc] initWithFormat:@"http://rdbeacon.azurewebsites.net/rdreupdatestatus.php"];
+    NSLog(@"即時更新：[%@] %@",status,updatetime);
     
-    NSString *post = [NSString stringWithFormat:@"useruuid=%@&status=%@&uuid=%@&major=%@&minor=%@&updatetime=%@",suuid,status,uuid,major,minor,updatetime];
-    
-    postData = [post dataUsingEncoding:NSUTF8StringEncoding];
-    
-    urlstr = [NSString stringWithString:strURL];
-    NSURL *url=[NSURL URLWithString:strURL];
-    NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:url];
-    
-    [request setHTTPMethod:@"POST"];
-    
-    [request setHTTPBody:postData];
-    
-    NSURLConnection *connect = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    [connect start];
-    
-    if (connect) {
-        Rdata = [NSMutableData new];
-    }
 }
 
 //----------------------------NSURLRequest(POST) update the states to server---------------------------------
@@ -159,6 +177,24 @@
     
 }
 
+// 将NSlog打印信息保存到Document目录下的文件中
+- (void)redirectNSlogToDocumentFolder
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    NSString *fileName = [NSString stringWithFormat:@"dr.log"];// 注意不是NSData!
+    NSString *logFilePath = [documentDirectory stringByAppendingPathComponent:fileName];
+    // 先删除已经存在的文件
+    NSLog(@"%@",logFilePath);
+    //    NSFileManager *defaultManager = [NSFileManager defaultManager];
+    //    [defaultManager removeItemAtPath:logFilePath error:nil];
+    
+    // 将log输入到文件
+    freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding], "a+", stdout);
+    freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding], "a+", stderr);
+}
+
+
 -(instancetype)init{
     if(self == [super init])
     {
@@ -179,14 +215,13 @@
     NSError *error;
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:Rdata options:NSJSONReadingMutableLeaves error:&error];
     
-    urlstr = @"";
-    NSLog(@"%@",dict);
+    [updatelist removeAllObjects];
+
+    NSLog(@"更新成功");
 }
 //----------------------------didFailWithError(USURLConnectionDelegate)------------------------------------------
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-//    [self ReupdateWithURL];
-    [self performSelector:@selector(ReupdateWithURL) withObject:nil afterDelay:1.0];
-    NSLog(@"再度更新を請求する");
+    NSLog(@"更新失敗");
 }
 
 //scheduling notifications
