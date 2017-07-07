@@ -38,7 +38,7 @@
     UIUserNotificationSettings *settings=[UIUserNotificationSettings  settingsForTypes:(UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound) categories:[NSSet setWithObject:categorys]];
     [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
     
-    
+    // 定期将进出beacon范围的信息 更新上传到服务器
     [NSTimer scheduledTimerWithTimeInterval:30.0
                                      target:self
                                    selector:@selector(updateUserstatusList)
@@ -48,10 +48,13 @@
     return YES;
 }
 
+
+/**
+ 定期将进出beacon范围的信息 更新上传到服务器
+ */
 -(void)updateUserstatusList{
-    NSLog(@"定期更新：%lu",(unsigned long)self.updatelist.count);
+    NSLog(@"有更新内容：%lu",(unsigned long)self.updatelist.count);
     if(self.updatelist.count> 0){
-        
         // 请求参数
         NSMutableDictionary * postdic = [[NSMutableDictionary alloc]init];
         [postdic setObject:self.updatelist forKey:@"updatedata"];
@@ -86,24 +89,8 @@
     [[NSNotificationCenter defaultCenter]postNotificationName:@"applicationWillEnterForeground" object:self];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
 
-}
 
-- (void)applicationWillTerminate:(UIApplication *)application {
-
-}
-
--(void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings{
-    //    NSLog(@"－－－－－－－－%@",notificationSettings);
-}
-
--(void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void (^)())completionHandler{
-    //NSLog(@"－－－－－－－－%@",identifier);
-    completionHandler();
-}
-
-//location magenager delegate
 -(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region{
     NSString *notificationMessage = [[NSString alloc]initWithFormat:@"进入[%@]",region.identifier];
     NSString *status = @"1";
