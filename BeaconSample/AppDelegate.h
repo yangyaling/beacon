@@ -25,10 +25,10 @@
 @property (strong, nonatomic) NSString *username;
 
 /**
- 状态 0:正常 1:忙碌
+ 状态
  */
 @property BOOL status2;
 
-@property NSMutableArray* updatelist;
+
 @end
 

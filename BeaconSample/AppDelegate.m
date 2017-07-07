@@ -9,20 +9,14 @@
 #import "AppDelegate.h"
 #import "BGTask.h"
 
-@interface AppDelegate (){
-    BOOL isCollect;
-    NSMutableData* Rdata;
-    NSData *postData ;
-    
-}
+@interface AppDelegate ()
+
 @property (strong , nonatomic) BGTask *bgTask;
+@property (strong , nonatomic) NSMutableArray *updatelist;
+@property (strong , nonatomic) NSMutableData* Rdata;
 @end
 
 @implementation AppDelegate
-@synthesize useruuid;
-@synthesize username;
-@synthesize status2;
-@synthesize updatelist;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
@@ -30,6 +24,7 @@
     
     // [self redirectNSlogToDocumentFolder];
     
+    // 创建定位管理
     self.locationManager = [[CLLocationManager alloc]init];
     self.locationManager.delegate = (id)self;
     self.updatelist = [[NSMutableArray alloc]initWithCapacity:0];
@@ -57,22 +52,20 @@
     NSLog(@"定期更新：%lu",(unsigned long)self.updatelist.count);
     if(self.updatelist.count> 0){
         
+        // 请求参数
         NSMutableDictionary * postdic = [[NSMutableDictionary alloc]init];
-        [postdic setObject:updatelist forKey:@"updatedata"];
-        
-        NSString *strURL= [[NSString alloc] initWithFormat:@"https://beaconapp.chinacloudsites.cn/rdupdateall.php"];
-        
-        
-        NSURL* url =[NSURL URLWithString:strURL];
-
+        [postdic setObject:self.updatelist forKey:@"updatedata"];
         NSData* jsondata = [NSJSONSerialization dataWithJSONObject:postdic options:NSJSONWritingPrettyPrinted error:nil];
-        
+        // 请求地址
+        NSString *strURL= [[NSString alloc] initWithFormat:@"https://beaconapp.chinacloudsites.cn/rdupdateall.php"];
+        NSURL* url =[NSURL URLWithString:strURL];
+        // 发送请求
         NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];
         [request setHTTPMethod:@"POST"];
         [request setHTTPBody:jsondata];
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         if (connection) {
-            Rdata = [NSMutableData new];
+            self.Rdata = [NSMutableData new];
         }
 
     }
@@ -149,7 +142,7 @@
     [dataitem setValue:status forKey:@"status"];
     [dataitem setValue:updatetime forKey:@"updatetime"];
     
-    [updatelist addObject:dataitem];
+    [self.updatelist addObject:dataitem];
     
     [self updateUserstatusList];
     
@@ -168,8 +161,6 @@
     NSString *logFilePath = [documentDirectory stringByAppendingPathComponent:fileName];
     // 先删除已经存在的文件
     NSLog(@"%@",logFilePath);
-    //    NSFileManager *defaultManager = [NSFileManager defaultManager];
-    //    [defaultManager removeItemAtPath:logFilePath error:nil];
     
     // 将log输入到文件
     freopen([logFilePath cStringUsingEncoding:NSASCIIStringEncoding], "a+", stdout);
@@ -181,32 +172,30 @@
     if(self == [super init])
     {
         _bgTask = [BGTask shareBGTask];
-        isCollect = NO;
         [_bgTask beginNewBackgroundTask];
     }
     return self;
 }
 
-//每次收到一条数据，就会调用此函数
+
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-    [Rdata appendData:data];//把data加到rdata最后
+    [self.Rdata appendData:data];
 }
 
-//----------------------------didFinishLoading(USURLConnectionDelegate协议的方法)------------------------------------------
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
     NSError *error;
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:Rdata options:NSJSONReadingMutableLeaves error:&error];
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:self.Rdata options:NSJSONReadingMutableLeaves error:&error];
     
-    [updatelist removeAllObjects];
+    [self.updatelist removeAllObjects];
 
     NSLog(@"更新成功");
 }
-//----------------------------didFailWithError(USURLConnectionDelegate)------------------------------------------
+
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     NSLog(@"更新失敗");
 }
 
-//scheduling notifications
+
 -(void)sendNotification:(NSString *)message{
     UILocalNotification *notification = [[UILocalNotification alloc]init];
     notification.fireDate = [[NSDate date]init];
