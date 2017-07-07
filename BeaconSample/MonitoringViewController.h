@@ -12,11 +12,10 @@
 @interface MonitoringViewController : UITableViewController
 
 @property (nonatomic,strong) CLLocationManager *locationManager;
-@property (strong , nonatomic) NSMutableData *Rdata;
+
 @property (strong,nonatomic) NSMutableDictionary *Rdict;
 @property (strong,nonatomic) NSMutableDictionary *BeaconInfo;
 @property (strong,nonatomic) NSMutableDictionary *Locations;
-@property (strong,nonatomic) NSMutableArray *mybeacons;
-@property (assign,nonatomic) BOOL isGetBeacon;
+
 
 @end

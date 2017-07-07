@@ -10,9 +10,7 @@
 #import "BGTask.h"
 
 @interface AppDelegate (){
-    NSString * urlstr;
     BOOL isCollect;
-    NSTimer * timer;
     NSMutableData* Rdata;
     NSData *postData ;
     
@@ -30,14 +28,14 @@
     
     [NSThread sleepForTimeInterval:1];
     
-    [self redirectNSlogToDocumentFolder];
+    // [self redirectNSlogToDocumentFolder];
     
     self.locationManager = [[CLLocationManager alloc]init];
     self.locationManager.delegate = (id)self;
     self.updatelist = [[NSMutableArray alloc]initWithCapacity:0];
     
-    //get device's uuid for useruuid
-    NSString *identifierForVendor=[[[UIDevice currentDevice] identifierForVendor]UUIDString];//UUID
+    // 获取设备UUID
+    NSString *identifierForVendor=[[[UIDevice currentDevice] identifierForVendor]UUIDString];
     self.useruuid= identifierForVendor;
     
     //setting for notification
@@ -62,7 +60,7 @@
         NSMutableDictionary * postdic = [[NSMutableDictionary alloc]init];
         [postdic setObject:updatelist forKey:@"updatedata"];
         
-        NSString *strURL= [[NSString alloc] initWithFormat:@"http://rdbeacon.azurewebsites.net/rdupdateall.php"];
+        NSString *strURL= [[NSString alloc] initWithFormat:@"https://beaconapp.chinacloudsites.cn/rdupdateall.php"];
         
         
         NSURL* url =[NSURL URLWithString:strURL];
@@ -114,14 +112,14 @@
 
 //location magenager delegate
 -(void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region{
-    NSString *notificationMessage = [[NSString alloc]initWithFormat:@"%@に入った",region.identifier];
+    NSString *notificationMessage = [[NSString alloc]initWithFormat:@"进入[%@]",region.identifier];
     NSString *status = @"1";
     [self updateUserStatus:status beaconRegion:(CLBeaconRegion *)region];
     [self sendNotification:notificationMessage];
 }
 
 -(void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region{
-    NSString *notificationMessage = [[NSString alloc]initWithFormat:@"%@から出た",region.identifier];
+    NSString *notificationMessage = [[NSString alloc]initWithFormat:@"离开[%@]",region.identifier];
     NSString *status = @"0";
     [self updateUserStatus:status beaconRegion:(CLBeaconRegion *)region];
     [self sendNotification:notificationMessage];
@@ -129,7 +127,9 @@
     
 }
 
-//----------------------------NSURLRequest(POST) update the states to server---------------------------------
+
+// 进／出beacon范围时，将记录上传
+
 -(void)updateUserStatus:(NSString*)status beaconRegion:(CLBeaconRegion*)beaconregion{
     
     AppDelegate *appdg= (AppDelegate*)[[UIApplication sharedApplication]delegate];
@@ -153,29 +153,11 @@
     
     [self updateUserstatusList];
     
-    NSLog(@"即時更新：[%@] %@",status,updatetime);
+    //NSLog(@"即時更新：[%@] %@",status,updatetime);
     
 }
 
-//----------------------------NSURLRequest(POST) update the states to server---------------------------------
--(void)ReupdateWithURL{
-    if(![urlstr isEqualToString:@""]){
-        NSURL *url=[NSURL URLWithString:urlstr];
-//        NSURLRequest *request=[[NSURLRequest alloc]initWithURL:url];
-        NSMutableURLRequest *request=[[NSMutableURLRequest alloc]initWithURL:url];
-        
-        [request setHTTPMethod:@"POST"];
-        
-        [request setHTTPBody:postData];
-        
-        NSURLConnection *connect = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-        [connect start];
-        
-        if (connect) {
-        }
-    }
-    
-}
+
 
 // 将NSlog打印信息保存到Document目录下的文件中
 - (void)redirectNSlogToDocumentFolder

@@ -9,11 +9,19 @@
 #import "ConfigureViewController.h"
 #import "MBProgressHUD.h"
 
-@interface ConfigureViewController ()<MBProgressHUDDelegate>{
+@interface ConfigureViewController ()<UITextFieldDelegate,NSURLConnectionDelegate,NSURLConnectionDataDelegate,MBProgressHUDDelegate>{
     MBProgressHUD *HUD;
     long long expectedLength;
     long long currentLength;
 }
+
+@property (weak, nonatomic) IBOutlet UILabel *labeluuid;
+@property (weak, nonatomic) IBOutlet UITextField *textUserName;
+@property (weak, nonatomic) IBOutlet UISwitch *switchStatus;
+- (IBAction)savaAction:(id)sender;
+
+@property (strong, nonatomic) NSMutableData *Rdata;
+@property (strong, nonatomic) NSMutableDictionary *Rdict;
 
 @end
 
@@ -22,38 +30,39 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //get the device's uuid,username
-    AppDelegate *delegate = [[UIApplication sharedApplication]delegate];
+    // 取得用户名，UUID，状态（保存在全局变量）
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
     self.labeluuid.text = delegate.useruuid;
     self.textUserName.text  =delegate.username;
-    
     self.switchStatus.on =delegate.status2;
     
 }
 
-//------------------NSMutableURLRequest(POST)----------------------------------
+/**
+ 保存／更新用户设置信息
+ */
 -(void)startRequest{
     NSString *uuid = self.labeluuid.text;
     NSString *username = self.textUserName.text;
+
     
-    NSString *strURL = [[NSString alloc]initWithFormat:@"http://rdbeacon.azurewebsites.net/rdinsertuser.php"];
-    NSURL *url = [NSURL URLWithString:strURL];
-    
-    NSString* isBtnOn = @"0";
+    NSString *isBtnOn = @"0";
     if (_switchStatus.isOn) {
         isBtnOn = @"1";
     }else{
         isBtnOn = @"0";
     }
     
-    
+    // 参数
     NSString *post = [NSString stringWithFormat:@"uuid=%@&username=%@&status2=%@",uuid,username,isBtnOn];
-//    NSLog(@"post:%@",post);
     NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding];
+    
+    // 请求地址
+    NSURL *url = [NSURL URLWithString:[[NSString alloc]initWithFormat:@"https://beaconapp.chinacloudsites.cn/rdinsertuser.php"]];
+    // 创建请求
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:postData];
-    
     NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
     if(connection){
         self.Rdata = [NSMutableData new];
@@ -64,9 +73,9 @@
     
 }
 
-//---------------------------didReceiveResponse(USURLConnectionDataDelegate)-----------------------------------------
+#pragma mark - USURLConnectionDataDelegate
+
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-//    NSLog(@"get the response");
     [self.Rdata setLength:0];
     expectedLength = MAX([response expectedContentLength], 1);
     
@@ -75,19 +84,14 @@
     
 }
 
-//----------------------------didReceiveData(USURLConnectionDataDelegate)------------------------------------------
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-//    NSLog(@"get some data");
     [self.Rdata appendData:data];//把data加到rdata最后
     
     currentLength += [data length];
     HUD.progress = currentLength / (float)expectedLength;
     
-    
 }
 
-
-//----------------------------didFinishLoading(USURLConnectionDelegate)------------------------------------------
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
     
     NSError *error;
@@ -95,14 +99,14 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.navigationItem.prompt = nil;
     if (error) {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:@"データ解析が失敗しました。" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Error" message:@"请稍后再试" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert show];
     }else{
-        
         //sava data to local
         NSString *home = NSHomeDirectory();
         NSString *docPath = [home stringByAppendingPathComponent:@"Documents"];
-        AppDelegate *delegate = [[UIApplication sharedApplication]delegate];
+        
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication]delegate];
         delegate.username = [dict valueForKey:@"username"];
         NSString* strStatus2 = [dict valueForKey:@"status2"];
         if ([strStatus2 isEqualToString:@"1"]) {
@@ -113,8 +117,8 @@
         
         NSString *plistPath = [docPath stringByAppendingPathComponent:[[NSString alloc]initWithFormat:@"%@.plist",delegate.useruuid]];
         [dict writeToFile:plistPath atomically:YES];
-//        NSLog(@"%@",plistPath);
-        HUD.labelText = @"登録は完成しました";
+
+        HUD.labelText = @"更新成功";
         HUD.labelFont = [UIFont boldSystemFontOfSize:12.f];
         HUD.mode = MBProgressHUDModeCustomView;
         [HUD hide:YES afterDelay:1];
@@ -126,7 +130,6 @@
     
 }
 
-//----------------------------didFailWithError(USURLConnectionDelegate)------------------------------------------
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     NSLog(@"FailWithError");
     
@@ -136,20 +139,16 @@
     [HUD hide:YES afterDelay:1];
 }
 
-//return the keyboard
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 - (IBAction)savaAction:(id)sender {
     if ([self.textUserName.text isEqualToString:@""]) {
-        UIAlertView *alert2 = [[UIAlertView alloc]initWithTitle:@"Error" message:@"名前を入力してください" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        UIAlertView *alert2 = [[UIAlertView alloc]initWithTitle:@"Error" message:@"请输入用户名" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alert2 show];
     }else{
         [self startRequest];

@@ -1,39 +1,43 @@
 {
   "images" : [
     {
-      "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "twitter@58.png",
+      "size" : "20x20",
       "scale" : "2x"
     },
     {
-      "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "twitter@87.png",
+      "size" : "20x20",
       "scale" : "3x"
     },
     {
-      "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "twitter@80.png",
+      "size" : "29x29",
       "scale" : "2x"
     },
     {
-      "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "twitte@120-1.png",
+      "size" : "29x29",
       "scale" : "3x"
     },
     {
-      "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "twitte@120.png",
+      "size" : "40x40",
       "scale" : "2x"
     },
     {
-      "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "twitter@180.png",
+      "size" : "40x40",
+      "scale" : "3x"
+    },
+    {
+      "idiom" : "iphone",
+      "size" : "60x60",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "iphone",
+      "size" : "60x60",
       "scale" : "3x"
     }
   ],

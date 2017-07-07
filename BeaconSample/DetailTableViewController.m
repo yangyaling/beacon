@@ -37,7 +37,7 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     
-    NSString *strURL = [[NSString alloc]initWithFormat:@"http://rdbeacon.azurewebsites.net/rdgetmonitorinfo.php?uuid=%@",self.uuid];
+    NSString *strURL = [[NSString alloc]initWithFormat:@"https://beaconapp.chinacloudsites.cn/rdgetmonitorinfo.php?uuid=%@",self.uuid];
     NSURL *url = [NSURL URLWithString:strURL];
     
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];

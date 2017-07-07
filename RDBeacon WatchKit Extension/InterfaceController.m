@@ -27,7 +27,7 @@
 //----------------------------NSURLRequest(异部请求)访问服务器---------------------------------------------------
 -(void)startRequestAllUsersInfo{
 
-    NSString *strURL = [[NSString alloc]initWithFormat:@"http://rdbeacon.azurewebsites.net/rdgetalluserinfo.php"];
+    NSString *strURL = [[NSString alloc]initWithFormat:@"https://beaconapp.chinacloudsites.cn/rdgetalluserinfo.php"];
     NSURL *url = [NSURL URLWithString:strURL];//设置请求路径
     
     //NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];//创建请求对象

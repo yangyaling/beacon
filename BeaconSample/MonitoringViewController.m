@@ -4,7 +4,7 @@
 //
 //  Created by totyu1 on 2015/06/23.
 //  Copyright (c) 2015年 totyu1. All rights reserved.
-//
+//  beacon页面
 
 #import "MonitoringViewController.h"
 #import "ConfigureViewController.h"
@@ -13,60 +13,64 @@
 #import "MBProgressHUD.h"
 
 @import CoreBluetooth;
-//define the navigation bar button's width,height
+
 CGFloat const NavButtonWidth=33;
 CGFloat const NavButtonHeight=32;
 
-@interface MonitoringViewController ()<CLLocationManagerDelegate,UserInfoUpdateDelegate,NSURLConnectionDelegate,NSURLConnectionDataDelegate,CBCentralManagerDelegate,UIAlertViewDelegate,MBProgressHUDDelegate>
+@interface MonitoringViewController ()<CLLocationManagerDelegate,NSURLConnectionDelegate,NSURLConnectionDataDelegate,UIAlertViewDelegate,MBProgressHUDDelegate>
 
-@property(nonatomic,strong)CBCentralManager *centralManager;
-
-@property NSString *name;
-@property NSUUID *uuid;
-@property NSNumber *major;
-@property NSNumber *minor;
+// 用户有效的beacon位置信息
+@property (strong,nonatomic) NSMutableArray *mybeacons;
+@property (assign,nonatomic) BOOL isGetBeacon;
+@property (strong , nonatomic) NSMutableData *Rdata;
 
 @end
 
 @implementation MonitoringViewController
-@synthesize Rdata=_Rdata;
-@synthesize isGetBeacon=_isGetBeacon;
+//@synthesize Rdata=_Rdata;
+//@synthesize isGetBeacon=_isGetBeacon;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initNavButton];
-    //register with a notification center to request the state for beacon region(in/out)
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBeaconState) name:@"applicationWillEnterForeground" object:nil];
-    self.centralManager = [[CBCentralManager alloc]initWithDelegate:self queue:nil];
     
-    //Initializing the Location Manager
+    // 创建导航栏按钮
+    [self initNavButton];
+    
+    // 创建位置管理者
     self.locationManager = [[CLLocationManager alloc]init];
     self.locationManager.delegate = (id)self;
-    [self.locationManager requestAlwaysAuthorization];//requesting authorization for location service
+    // 请求授权
+    [self.locationManager requestAlwaysAuthorization];
     self.locationManager.activityType = CLActivityTypeFitness;
+    // 设置定位距离过滤参数
     self.locationManager.distanceFilter = kCLLocationAccuracyBest;
+    // 设置定位精度(精度越高越耗电)
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     
-    //検索されたビーコン情報は既にローカリに存在しているかどうかをチェック
-    AppDelegate *delegate = [[UIApplication sharedApplication]delegate];
+    
+    // 判断检索到的beacon信息本地是否存在
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
-    NSString *home = NSHomeDirectory();
-    NSString *docPath = [home stringByAppendingPathComponent:@"Documents"];
+    // Home目录
+    NSString *homePath = NSHomeDirectory();
+    // Document目录
+    NSString *docPath = [homePath stringByAppendingPathComponent:@"Documents"];
     NSString *plistPath = [docPath stringByAppendingPathComponent:[[NSString alloc]initWithFormat:@"%@.plist",delegate.useruuid]];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
     
     self.Locations = [NSMutableDictionary new];
     self.mybeacons = [NSMutableArray new];
 
     NSString *beaconpath =[docPath stringByAppendingPathComponent:[[NSString alloc]initWithFormat:  @"beaconlocation.plist"]];
-    //NSLog(@"%@",beaconpath);
     
-    if ([fileManager fileExistsAtPath:beaconpath]) {
+    NSLog(@"plistpath:%@\n beaconpath:%@\n",plistPath,beaconpath);
+    
+    // 如果本地存在，取出本地保存的信息
+    if ([[NSFileManager defaultManager] fileExistsAtPath:beaconpath]) {
         self.BeaconInfo = [[NSMutableDictionary alloc]initWithContentsOfFile:beaconpath];
         
     }
-    
-    if ([fileManager fileExistsAtPath:plistPath]) {
+    // 如果是第二次以后登录，取出本地保存的客户端用户信息
+    if ([[NSFileManager defaultManager] fileExistsAtPath:plistPath]) {
         NSMutableDictionary * userinfo = [[NSMutableDictionary alloc]initWithContentsOfFile:plistPath];
         delegate.username = [userinfo valueForKey:@"username"];
         NSString* strStatus2 = [userinfo valueForKey:@"status2"];
@@ -76,10 +80,15 @@ CGFloat const NavButtonHeight=32;
         }else{
             delegate.status2 = NO;
         }
+        //
         [self initCLBeaconRegion];
-        [self startRequest];
+        
+        // 获取beacon信息
+        [self getBeaconInfo];
     }else{
-        [self startRequest];
+    // 如果是第一次登录，进入登录界面
+        // 获取beacon信息
+        [self getBeaconInfo];
         [self performSegueWithIdentifier:@"segueConfigure" sender:self];
     }
     
@@ -87,11 +96,10 @@ CGFloat const NavButtonHeight=32;
 }
 
 
--(void)UserInfoUpdateEvent{
-    [self initCLBeaconRegion];
-}
 
-//Initializing the Beacon Region
+/**
+ 初始化 Beacon Regions
+ */
 -(void)initCLBeaconRegion{
     if ([CLLocationManager isMonitoringAvailableForClass:[CLBeaconRegion class]]) {
         if(self.BeaconInfo){
@@ -115,24 +123,15 @@ CGFloat const NavButtonHeight=32;
             }
         }
         else{
-            NSLog(@"error");
+            NSLog(@"没有有效的beacon位置信息");
         }
     }
 
 }
--(void)centralManagerDidUpdateState:(CBCentralManager *)central{
-    switch (central.state) {
-        case CBCentralManagerStatePoweredOn:
-            [self.centralManager scanForPeripheralsWithServices:nil options:nil];
-            break;
-            
-        default:
-            //NSLog(@"central manager did change state");
-            break;
-    }
-}
 
-//whether the app is authorized to use location services
+
+// 定位服务的授权状态发生改变的时候回调
+
 -(void) locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
     
     if (status == kCLAuthorizationStatusAuthorizedAlways) {
@@ -147,54 +146,21 @@ CGFloat const NavButtonHeight=32;
             }else{
                 [self initCLBeaconRegion];
             }
-            //NSLog(@"CASE kCLAuthorizationStatusNotDetermined");
             break;
         case kCLAuthorizationStatusRestricted:
-            //NSLog(@"CASE kCLAuthorizationStatusRestricted");
             break;
         case kCLAuthorizationStatusDenied:
-            //NSLog(@"CASE kCLAuthorizationStatusDenied");
             break;
         case kCLAuthorizationStatusAuthorizedAlways:
-            //NSLog(@"CASE kCLAuthorizationStatusAuthorizedAlways");
             [self initCLBeaconRegion];
             break;
         case kCLAuthorizationStatusAuthorizedWhenInUse:
-            //NSLog(@"CASE kCLAuthorizationStatusAuthorizedWhenInUse");
             [self initCLBeaconRegion];
             break;
         default:
             break;
     }
 }
-
-//-(void)updateBeaconState{
-//    for (int i=0; i<self.mybeacons.count; i++) {
-//        CLBeaconRegion* reg = [self.mybeacons objectAtIndex:i];
-//        [self.locationManager requestStateForRegion:reg];
-//    }
-//}
-
-//Invoked when there's a state transition for a monitored region or in response to a request for state via a call to requestStateForRegion:.
-//-(void)locationManager:(CLLocationManager *)manager didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region{
-//    
-//    switch (state) {
-//        case CLRegionStateInside:
-//            [self updateUserStatus:@"1" beaconRegion:(CLBeaconRegion *)region];
-//            NSLog(@"Inside %@",region.identifier);
-//            break;
-//        case CLRegionStateOutside:
-//            [self updateUserStatus:@"0" beaconRegion:(CLBeaconRegion *)region];
-//            NSLog(@"Outside %@",region.identifier);
-//            break;
-//        case CLRegionStateUnknown:
-//            break;
-//        default:
-//            
-//            break;
-//    }
-//    [self.tableView reloadData];
-//}
 
 
 -(void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray *)beacons inRegion:(CLBeaconRegion *)region{
@@ -206,7 +172,6 @@ CGFloat const NavButtonHeight=32;
 
         }
         [location setObject:beacons.firstObject forKey:@"beacons"];
-        
         [location setValue:region.proximityUUID.UUIDString forKey:@"uuid"];
         [location setValue:region.major.stringValue forKey:@"major"];
         [location setValue:region.minor.stringValue forKey:@"minor"];
@@ -223,26 +188,21 @@ CGFloat const NavButtonHeight=32;
     
 }
 
-//ーーーーーーーーーーーーーーーーーーーーー失敗した時、ログ情報を出力ーーーーーーーーーーーーーーーーーーーーーー
 -(void) locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error{
     //NSLog(@"%@", error);
 }
 
--(void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
-    //NSLog(@"%@", error);
-    
-}
 
 -(void)locationManager:(CLLocationManager *)manager rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region withError:(NSError *)error{
     //NSLog(@"%@", error);
 }
 
 //----------------------------NSURLRequest---------------------------------------------------
--(void)startRequest{
+-(void)getBeaconInfo{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     self.isGetBeacon = YES;
     
-    NSString *strURL = [[NSString alloc]initWithFormat:@"http://rdbeacon.azurewebsites.net/rdgetlocation.php"];
+    NSString *strURL = [[NSString alloc]initWithFormat:@"https://beaconapp.chinacloudsites.cn/rdgetlocation.php"];
     NSURL *url = [NSURL URLWithString:strURL];
     
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
@@ -255,23 +215,16 @@ CGFloat const NavButtonHeight=32;
     }
 }
 
+#pragma mark - NSURLConnectionDataDelegate
 
-//---------------------------didReceiveResponse(USURLConnectionDataDelegate)-----------------------------------------
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
     [self.Rdata setLength:0];
-    
 }
 
-
-//----------------------------didReceiveData(USURLConnectionDataDelegate)------------------------------------------
-//每次收到一条数据，就会调用此函数
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-
     [self.Rdata appendData:data];
-    
-    
 }
-//----------------------------didFinishLoading(USURLConnectionDelegate协议的方法)------------------------------------------
+
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
     
     NSError *error;
@@ -304,7 +257,7 @@ CGFloat const NavButtonHeight=32;
     }
     self.isGetBeacon = NO;
 }
-//----------------------------didFailWithError(USURLConnectionDelegate)------------------------------------------
+
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     MBProgressHUD *HUD = [[MBProgressHUD alloc]initWithView:self.navigationController.view];
@@ -317,27 +270,10 @@ CGFloat const NavButtonHeight=32;
     [HUD hide:YES afterDelay:1];
 }
 
-//----------------------------NSURLRequest update the states to server when enter/quit the beacon region器-------------------------------------
-//-(void)updateUserStatus:(NSString*)status beaconRegion:(CLBeaconRegion*)beaconregion{
-//    
-//    AppDelegate *appdg= (AppDelegate*)[[UIApplication sharedApplication]delegate];
-//    NSString * suuid =appdg.useruuid;
-//    NSString * uuid = (NSString*)beaconregion.proximityUUID.UUIDString;
-//    NSString * major = [beaconregion.major stringValue];
-//    NSString * minor = [beaconregion.minor stringValue];
-//    
-//    NSString *strURL= [[NSString alloc] initWithFormat:@"http://rdbeacon.azurewebsites.net/rdupdatestatus.php?useruuid=%@&status=%@&uuid=%@&major=%@&minor=%@",suuid,status,uuid,major,minor];
-//    NSURL *url=[NSURL URLWithString:strURL];
-//    NSURLRequest *request=[[NSURLRequest alloc]initWithURL:url];
-//    
-//    
-//    NSURLConnection *connect = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-//    [connect start];
-//    if (connect) {
-//    }
-//}
 
-//create two navigation bar buttons
+/**
+ 创建导航栏按钮
+ */
 -(void)initNavButton{
     UIButton *leftBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     UIButton *rightBtn=[UIButton buttonWithType:UIButtonTypeCustom];
@@ -353,30 +289,32 @@ CGFloat const NavButtonHeight=32;
     self.navigationItem.rightBarButtonItem= itemright;
     
 }
+
+
+/**
+ 点击设置按钮触发
+ */
 -(void)editAction{
     [self performSegueWithIdentifier:@"segueConfigure" sender:self];
 }
+
+
+/**
+ 点击用户一览按钮触发
+ */
 -(void)membersAction{
     [self performSegueWithIdentifier:@"segueMember" sender:self];
 }
 
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
-#pragma mark - Table view data source
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
     if (self.Locations) {
         return self.Locations.count;
     }else{
         return 0;
     }
-    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -429,19 +367,16 @@ CGFloat const NavButtonHeight=32;
 }
 
 
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:@"segueConfigure"]){
         ConfigureViewController *editVC= segue.destinationViewController;
-        editVC.delegate = self;
+        editVC.delegate = (id)self;
     }
 }
 
--(void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+-(void)UserInfoUpdateEvent{
+    [self initCLBeaconRegion];
 }
-
 
 @end

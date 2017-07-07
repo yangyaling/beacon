@@ -14,9 +14,21 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) CLLocationManager* locationManager;
 
+/**
+ 客户端的UUID
+ */
 @property (strong, nonatomic) NSString *useruuid;
+
+/**
+ 客户端的用户名(初期页面输入)
+ */
 @property (strong, nonatomic) NSString *username;
+
+/**
+ 状态 0:正常 1:忙碌
+ */
 @property BOOL status2;
+
 @property NSMutableArray* updatelist;
 @end
 

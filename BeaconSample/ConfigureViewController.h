@@ -9,19 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 
-@protocol UserInfoUpdateDelegate <NSObject>
+@protocol ConfigureVCDelegate <NSObject>
 -(void)UserInfoUpdateEvent;
 @end
-//--------------------------------------NSURLConnectionDelegate-------------------------------
-@interface ConfigureViewController : UIViewController<UITextFieldDelegate,NSURLConnectionDelegate,NSURLConnectionDataDelegate>
-@property (weak, nonatomic) IBOutlet UILabel *labeluuid;
-@property (weak, nonatomic) IBOutlet UITextField *textUserName;
-@property (weak, nonatomic) IBOutlet UISwitch *switchStatus;
-- (IBAction)savaAction:(id)sender;
 
-@property (strong, nonatomic) NSMutableData *Rdata;
-@property (strong, nonatomic) NSMutableDictionary *Rdict;
+@interface ConfigureViewController : UIViewController
 
-@property (nonatomic, assign) id<UserInfoUpdateDelegate>delegate;
+
+
+@property (nonatomic, assign) id<ConfigureVCDelegate>delegate;
 
 @end
