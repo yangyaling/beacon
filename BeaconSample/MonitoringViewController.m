@@ -202,7 +202,7 @@ CGFloat const NavButtonHeight=32;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     self.isGetBeacon = YES;
     
-    NSString *strURL = [[NSString alloc]initWithFormat:@"https://beaconapp.chinacloudsites.cn/rdgetlocation.php"];
+    NSString *strURL = [[NSString alloc]initWithFormat:@"https://beaconapp2.chinacloudsites.cn/rdgetlocation.php"];
     NSURL *url = [NSURL URLWithString:strURL];
     
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];

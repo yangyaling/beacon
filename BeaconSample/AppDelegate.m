@@ -60,7 +60,7 @@
         [postdic setObject:self.updatelist forKey:@"updatedata"];
         NSData* jsondata = [NSJSONSerialization dataWithJSONObject:postdic options:NSJSONWritingPrettyPrinted error:nil];
         // 请求地址
-        NSString *strURL= [[NSString alloc] initWithFormat:@"https://beaconapp.chinacloudsites.cn/rdupdateall.php"];
+        NSString *strURL= [[NSString alloc] initWithFormat:@"https://beaconapp2.chinacloudsites.cn/rdupdateall.php"];
         NSURL* url =[NSURL URLWithString:strURL];
         // 发送请求
         NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];

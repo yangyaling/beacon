@@ -58,7 +58,7 @@
     NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding];
     
     // 请求地址
-    NSURL *url = [NSURL URLWithString:[[NSString alloc]initWithFormat:@"https://beaconapp.chinacloudsites.cn/rdinsertuser.php"]];
+    NSURL *url = [NSURL URLWithString:[[NSString alloc]initWithFormat:@"https://beaconapp2.chinacloudsites.cn/rdinsertuser.php"]];
     // 创建请求
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];

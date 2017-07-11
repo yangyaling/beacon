@@ -35,7 +35,7 @@
 -(void)startRequestAllUsersInfo{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
-    NSString *strURL = [[NSString alloc]initWithFormat:@"https://beaconapp.chinacloudsites.cn/rdgetalluserinfo.php"];
+    NSString *strURL = [[NSString alloc]initWithFormat:@"https://beaconapp2.chinacloudsites.cn/rdgetalluserinfo.php"];
     NSURL *url = [NSURL URLWithString:strURL];
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
     NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
